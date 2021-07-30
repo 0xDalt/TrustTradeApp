@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <a href="/users/register">register</a>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <% if(error) { %>
+      <h2>Error: <%= error %></h2>
+    <% } %>
+    
+    <form action="login" method="post">
+      <label for="password">password</label>
+      <input type="password" name="password" id="">
+      <input type="hidden" name="currentAcc" id="currentAcc">
+      <br>
+      <br>
+      <button type="submit">Login</button>
+    </form>
+
+
+    
+    <script>
+      var ethKey = null;
+      (async function() {
+        
+        ethKey = await window.ethereum.request({ method: 'eth_requestAccounts' })
+        let currentAccEl = (await document.getElementById("currentAcc"))
+        currentAccEl.value = ethKey[0]
+
+      })()
+    </script>
+  </body>
+</html>
