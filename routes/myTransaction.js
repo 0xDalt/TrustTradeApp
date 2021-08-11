@@ -4,12 +4,21 @@ var router = express.Router();
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'transaction' });
+  res.render('index', { title: 'transkkaction' });
 });
 
-router.get('/:users/id', function(req, res, next) {
-  //look up user
-  res.render({user: { id: req.params.id }})
+router.get('/', function(req, res, next) {
+  
+  const progress = document.querySelector('.progress-done');
+
+  progress.style.width = progress.getAttribute('data-done') + '%';
+  progress.style.opacity = 1;
+  // create script that uses emits from contract and use those
+  // to update the status bar value variable
 });
+
+
+
+//use description variable
 
 module.exports = router;

@@ -1,0 +1,41 @@
+From front end
+- Each time a contrat is created, it needs to be tracked
+- There can be one master list
+    - From the master list, users can run functions of each escrow
+
+Transaction needs 
+
+either buyer or seller goes first
+buyer or seller sets price
+    - They need to note they are the buyer or seller
+
+The basic contract
+- Either buyer or seller can create it first
+    - if buyer, add in 
+
+
+CreateTransaction
+- create a contract within contract
+    - need to set the contract address mapping
+    - need to emit an event "new contract"
+    -dont want the array to get to big over time, (gas)
+    - two mappings (buyer and seller)
+        - for each mapping, create an array[addressses] to store address
+    - When create a contract
+        - if seller
+            - add the contract address to seller mapping(user, array)
+        - if buyer
+            - add the contract address to buyer mapping(user, array)
+    - When finished with contract
+        - if seller
+            - remove the contract address to seller mapping(user, array)
+        - if buyer
+            - remove the contract address to buyer mapping(user, array)
+JoinTransaction
+- Allow another user to run a function
+    - setBuyer/setSeller depending on what they need
+- Currently if they try to be buyer or seller while there already is that role
+    - an error is emitted
+
+
+
