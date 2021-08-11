@@ -10,11 +10,7 @@ library EscrowTypes {
 }
 
 contract Escrow {
-    struct details {
-    address payable _seller;
-    address payable _buyer;
     
-<<<<<<< HEAD
     address payable public _seller;
     address payable public _buyer;
    
@@ -22,10 +18,6 @@ contract Escrow {
     string public description;
     uint public contractStart;
 
-=======
-    }
-    uint public _price;
->>>>>>> 69415779fbd2c278ef3481319c3bb05c055f51a4
 
     bool buyerHasDeposited = false;
     bool sellerHasDeposited = false;
@@ -59,22 +51,11 @@ contract Escrow {
     ***************************/
     
     constructor(bool isBuyer) payable {
-<<<<<<< HEAD
-        //what happens if not divisable, how does such statements define outcome
+        //what happens if not divisable,== use block timestamp 
         contractStart = block.timestamp;
         if(isBuyer){
             setBuyer();
         } else {
-=======
-
-        require(msg.value % 6 == 0, "The price of the deposit must be divisible by 2 and 3");
-//what happens if not divisable, how does such statements define outcome
-        if(isBuyer){
-            _price = msg.value / 3;
-            setBuyer();
-        } else {  //  is seller
-            _price = msg.value / 2;
->>>>>>> 69415779fbd2c278ef3481319c3bb05c055f51a4
             setSeller();
         }
     }
@@ -87,18 +68,17 @@ contract Escrow {
         buyerHasNotRecievedItem,
         finished
         */
-        if(block.timestamp >= contractStart + one_Week){
-            if(address(this).balance > 0){
-                return ContractState.inactive;
-            }
-            return ContractState.finished;
+        if(address(this).balance > 0){
+            return ContractState.inactive;
         }
+            return ContractState.finished;
+        
         
         address emptyAddress = address(0);
     
         if( _buyer == emptyAddress && _seller == emptyAddress){
             // never be true because the constructor creates either a buyer or seller
-            return ContractState.startOfContract;
+         return ContractState.startOfContract;
         }
 
         if( _buyer == emptyAddress ){
@@ -128,19 +108,15 @@ contract Escrow {
         */
         
         address emptyAddress = address(0);
-<<<<<<< HEAD
 
-        if(block.timestamp >= contractStart + one_Week){
-            if(address(this).balance > 0){
-                return "ContractInactive";
-            }
-            return "finished";
+        
+        if(address(this).balance > 0){
+            return "ContractInactive";
         }
+            return "finished";
+        
 
 
-=======
-    
->>>>>>> 69415779fbd2c278ef3481319c3bb05c055f51a4
         if( _buyer == emptyAddress && _seller == emptyAddress){
             // never be true because the constructor creates either a buyer or seller
             return "startOfContract";
@@ -164,7 +140,6 @@ contract Escrow {
 
     
     function setBuyer() payable public {
-        require(block.timestamp < contractStart + one_Week, "contract is inactive");
 
         require(msg.value > 0, "The price of the deposit must be greater than 0");
         
@@ -191,7 +166,6 @@ contract Escrow {
     }
 
     function setSeller() payable public {
-        require(block.timestamp < contractStart + one_Week, "contract is inactive");
 
         require(msg.value > 0, "The price of the deposit must be greater than 0");
         
@@ -220,7 +194,7 @@ contract Escrow {
     
     
     function buyerRecieveItem() public {
-        require(block.timestamp < contractStart + one_Week, "contract is inactive");
+        //use blocktimestamp throughout to error check
         require(getCurrentState() == ContractState.buyerHasNotRecievedItem, "Buyer should be waiting for item");
         require(msg.sender == _buyer, "Only the Buyer can state when they have recieved product");
         _buyer.transfer(_price * 2);
@@ -230,7 +204,6 @@ contract Escrow {
    }
    
    function contractExpired() public {
-        require(block.timestamp >= contractStart + one_Week, "contract is still active");
         require(address(this).balance > 0, "contract needs to have value");
         if(_buyer != address(0)) {
             _buyer.transfer(_price * 3);
@@ -247,7 +220,8 @@ contract EscrowContainer  {
 
     mapping (address => address[]) public buyerList;
     mapping (address => address[]) public sellerList;
-  
+    mapping (address => uint) public buyerListLength;
+    mapping (address => uint) public sellerListLength;
 
     
     function getEscrowItem(bool fromBuyer, address user, uint item) public view returns (Escrow) {
@@ -259,40 +233,48 @@ contract EscrowContainer  {
             return Escrow(contractAddress);
         }
     }
-
-}
-
-contract Transaction is Escrow  {
-
-    mapping (address => Escrow) _map;
-    mapping (address => details) buyerT;
-    mapping (address => details) sellerT ;
-
-
-    // array with address
-    buyerT [address] public buyerArr;
-    sellerT [address] public sellerArr;
-
-    string description;
-    bool isBuyer;
-    bool created;
-
-    enum transactionState{
-        TransactionAdded
-
-    }
-
-    event N (newContract update);
-
-    //input total value euro.- use api for conversion
-    //Repo: https://github.com/hunterlong/fiatcontract
-
-    function createTransaction() public{
-        // take in string des.
-        // take in price.
-       
-        
-    }
-
     
+    function setBuyer(address contractAddress) external payable{
+        Escrow escrow = Escrow(address);
+        escrow.setBuyer();
+        buyerList[msg.sender].push(newAddress);
+        buyerListLength[msg.sender]++;
+    }
+
+ function setSeller(address contractAddress) external payable{
+        Escrow escrow = Escrow(address);
+        escrow.setSeller();
+        buyerList[msg.sender].push(newAddress);
+        buyerListLength[msg.sender]++;
+    }
+
+    function createEscrow (bool isBuyer) external payable returns(Escrow){
+        //need to find out how to pass value along to child ?
+        Escrow newEscrow = (new Escrow).value.msg.value;
+
+        if(isBuyer){
+            buyerList[msg.sender].push 
+            (//need new escrow instance address)
+            buyerListLength[msg.sender] ++;
+        }else{
+            sellerList[msg.sender].push 
+            (//need new escrow instance address)
+            sellerListLength[msg.sender] ++;
+        }
+
+        return Escrow
+    }
+    function buyerRecieveItem(address contract) external{
+        //get escrow object connected to address in args
+        Escrow escrow = Escrow(contractAddress);
+        // run buyerRecieveItem function
+        Escrow.buyerHasRecievedItem();
+    }
+
+    function cleanUpList(){
+
+    }
+
+    function 
 }
+
