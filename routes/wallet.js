@@ -9,9 +9,5 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'wallet' });
 });
 
-router.get('/:users/id', function(req, res, next) {
-  //look up user
-  res.render({user: { id: req.params.id }})
-});
 
 module.exports = router;
