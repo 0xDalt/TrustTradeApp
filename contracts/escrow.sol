@@ -10,7 +10,11 @@ library EscrowTypes {
 }
 
 contract Escrow {
+    struct details {
+    address payable _seller;
+    address payable _buyer;
     
+<<<<<<< HEAD
     address payable public _seller;
     address payable public _buyer;
    
@@ -18,6 +22,10 @@ contract Escrow {
     string public description;
     uint public contractStart;
 
+=======
+    }
+    uint public _price;
+>>>>>>> 69415779fbd2c278ef3481319c3bb05c055f51a4
 
     bool buyerHasDeposited = false;
     bool sellerHasDeposited = false;
@@ -51,11 +59,22 @@ contract Escrow {
     ***************************/
     
     constructor(bool isBuyer) payable {
+<<<<<<< HEAD
         //what happens if not divisable, how does such statements define outcome
         contractStart = block.timestamp;
         if(isBuyer){
             setBuyer();
         } else {
+=======
+
+        require(msg.value % 6 == 0, "The price of the deposit must be divisible by 2 and 3");
+//what happens if not divisable, how does such statements define outcome
+        if(isBuyer){
+            _price = msg.value / 3;
+            setBuyer();
+        } else {  //  is seller
+            _price = msg.value / 2;
+>>>>>>> 69415779fbd2c278ef3481319c3bb05c055f51a4
             setSeller();
         }
     }
@@ -109,6 +128,7 @@ contract Escrow {
         */
         
         address emptyAddress = address(0);
+<<<<<<< HEAD
 
         if(block.timestamp >= contractStart + one_Week){
             if(address(this).balance > 0){
@@ -118,6 +138,9 @@ contract Escrow {
         }
 
 
+=======
+    
+>>>>>>> 69415779fbd2c278ef3481319c3bb05c055f51a4
         if( _buyer == emptyAddress && _seller == emptyAddress){
             // never be true because the constructor creates either a buyer or seller
             return "startOfContract";
@@ -237,4 +260,39 @@ contract EscrowContainer  {
         }
     }
 
+}
+
+contract Transaction is Escrow  {
+
+    mapping (address => Escrow) _map;
+    mapping (address => details) buyerT;
+    mapping (address => details) sellerT ;
+
+
+    // array with address
+    buyerT [address] public buyerArr;
+    sellerT [address] public sellerArr;
+
+    string description;
+    bool isBuyer;
+    bool created;
+
+    enum transactionState{
+        TransactionAdded
+
+    }
+
+    event N (newContract update);
+
+    //input total value euro.- use api for conversion
+    //Repo: https://github.com/hunterlong/fiatcontract
+
+    function createTransaction() public{
+        // take in string des.
+        // take in price.
+       
+        
+    }
+
+    
 }
