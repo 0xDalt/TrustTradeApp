@@ -12,8 +12,8 @@
   </title>
 </head>
 <style>
-  <!--move styling to CSS
-  -->
+  /*<!--move styling to CSS
+  -->*/
   body
   {
   font-family:
@@ -113,10 +113,6 @@
             <h1>
               <%= title %>
             </h1>
-<<<<<<< HEAD
-            <i class="fab fa-hive"></i>
-=======
->>>>>>> 69415779fbd2c278ef3481319c3bb05c055f51a4
             <p>create transaction </p>
           </div>
       </form>
@@ -124,7 +120,16 @@
           <!--  GAP
 -->
           <div class="wrapper">
-            <form>
+            <form action="/trans/create" method="POST">
+              <input name="ethAddress" type="hidden" />
+              <script>
+                (async ()=>{
+                  let accounts = await ethereum.request({ method: 'eth_accounts' });
+                  console.log(accounts);
+                  var inputNode = document.querySelector("input[name=ethAddress]")
+                  inputNode.value = accounts[0];
+                })()
+              </script>
               <fieldset class="row mb-3">
                 <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
                   data-bs-content="Disabled popover">
@@ -132,13 +137,13 @@
               </span>
                 <div class="col-sm-10">
                   <div class="form-check form-check-inline"">
-                  <input class=" form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                  <input class=" form-check-input" type="radio" name="buyerOrSeller" id="gridRadios1" value="buyer" checked>
                     <label class="form-check-label" for="gridRadios1">
                       buyer
                     </label>
                   </div>
                   <div class="form-check form-check-inline"">
-                  <input class=" form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                  <input class=" form-check-input" type="radio" name="buyerOrSeller" id="gridRadios2" value="seller">
                     <label class="form-check-label" for="gridRadios2">
                       seller
                     </label>
@@ -150,7 +155,12 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text">€</span>
                       </div>
-                      <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                      <input
+                        type="text"
+                        name="value"
+                        class="form-control"
+                        aria-label="Amount (to the nearest dollar)"
+                      />
                       <div class="input-group-append">
                         <span class="input-group-text">.00</span>
                       </div>

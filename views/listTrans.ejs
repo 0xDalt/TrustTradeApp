@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div>
+        <h1>Buy Articles</h1>
+        <ul>
+            <% for(var i=0; i < buyArticles.length; i++) { %>
+                <li>
+                    <h3><%= buyArticles[i].contractAddress %></h3>
+                    <h5><%= buyArticles[i].state %></h5>
+                    <p><%= buyArticles[i].description %></p>
+                </li>
+             <% } %>        
+        </ul>
+    </div>
+    <div>
+        <h1>Sell Articles</h1>
+        <ul>
+            <% for(var i=0; i < sellArticles.length; i++) { %>
+                <li>
+                    <h3><%= sellArticles[i].contractAddress %></h3>
+                    <h5><%= sellArticles[i].state %></h5>
+                    <p><%= sellArticles[i].description %></p>
+                </li>
+             <% } %>        
+        </ul>
+    </div>
+
+</body>
+
+
+<script>
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+</script>
+</body>
+
+</html>

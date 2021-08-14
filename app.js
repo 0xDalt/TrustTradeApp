@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/landing', landingRouter);
 app.use('/wallet', walletRouter);
-app.use('/createTrans', createTransRouter);
+app.use('/trans', createTransRouter);
 app.use('/joinTrans', joinTransRouter);
 app.use('/myTransaction', myTransactionRouter);
 

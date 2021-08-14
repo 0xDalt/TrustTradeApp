@@ -5,12 +5,9 @@ var router = express.Router();
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('joinTrans', { title: 'Express' });
 });
 
-router.get('/:users/id', function(req, res, next) {
-  //look up user
-  res.render({user: { id: req.params.id }})
-});
+
 
 module.exports = router;
