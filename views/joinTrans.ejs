@@ -106,57 +106,41 @@
   <!--NAVBAR-->
   <%- include partials/nav.ejs %>
   <%- include partials/header.ejs %>
-    <div class="form wrapper">
+    
       <form name="Form" action="" method="get">
         <%- include partials/burger-right.ejs %>
-          <div class="container my-5">
-            <h1>
-              <%= title %>
-            </h1>
-            <p>create transaction </p>
+  
+        <div class="container pt-4 pb-0 px-5">
+          <div class="layout row wrap">
+            <div class="headline">
+              <h1>
+                <%= title %>
+              </h1>
+            </div>
+            <div class="flex-con">
+              <div class="y-5 x-0">
+                <div class="join-form">
+                  <p class="body-2 font-weight-medium mb-5">
+                  Please enter the code you received from the person you are transacting with.
+                  </p>
+                  <form novalidate="novalidate" class="v-form"></form>
+                    <label aria-hidden="true" class="form-label">Alphanumeric code</label>
+                    <input type="text" name="name" class="field" required pattern="[a-zA-Z0-9]+" />
+                </div>
+              </div>
+            </div>
           </div>
+          <button type="button" class="success mx-0 mt-5 px-5 gradient-orange-ping-blue v-btn v-btn--round theme--light" 
+          style="width: 70%;">
+          <div class="v-btn__content"><span>Confirm</span>
+          </div></button>
       </form>
     </div>
           <!--  GAP
 -->
           <div class="wrapper">
-            <form>
-              <fieldset class="row mb-3">
-                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
-                  data-bs-content="Disabled popover">
-                  <button class="btn btn-primary" type="button" disabled>I am a</button>
-              </span>
-                <div class="col-sm-10">
-                  <div class="form-check form-check-inline"">
-                  <input class=" form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                    <label class="form-check-label" for="gridRadios1">
-                      buyer
-                    </label>
-                  </div>
-                  <div class="form-check form-check-inline"">
-                  <input class=" form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                    <label class="form-check-label" for="gridRadios2">
-                      seller
-                    </label>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col-sm-10 offset-sm-2">
-                    </div><br>
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">€</span>
-                      </div>
-                      <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                      <div class="input-group-append">
-                        <span class="input-group-text">.00</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea name="description" id="description" class="form-control"></textarea>
-                  </div><br>
-                  <button type="submit" class="btn btn-primary">create transaction</button>
+            <form action="/trans/join" method="POST">
+                <input name="ethAddress" type="hidden" />
             </form>
           </div>
          <div>

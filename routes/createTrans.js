@@ -5,14 +5,17 @@ const web3 = require("web3");
 const fetch = require("isomorphic-fetch");
 const qs = require("qs");
 
-const truffleContract = require('truffle-contract');
-const escrowConContract = require('../build/contracts/EscrowContainer.json');
+const setBuyer = require("./transactions/set-buyer");
+const setSeller = require("./transactions/set-seller");
+const buyerRecievedItem = require("./transactions/buyer-recieved-item");
+const contractExpired = require("./transactions/contract-expired");
 
 
-var ESCROW = truffleContract(escrowConContract);
-ESCROW.setProvider("http://127.0.0.1:7545/");
-
-var GAS_LIMIT = 21 * 1000 + 1000 * 1000;
+const { getContractDetails } = require("./transactions/get-contract-details");
+const {
+  ESCROW,
+   GAS_LIMIT
+} = require("./utils/truffle");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -39,7 +42,22 @@ async function fiatToEth(inValue){
   if(!response.ok){
     throw json;
   }
-  return json.data.quote.ETH.price
+  var ethPrice = json.data.quote.ETH.price;
+
+  var weiPrice = ethToWei(ethPrice.toString());
+
+  console.log(weiPrice)
+
+  var offset = weiPrice.modulo(3);
+  if(offset.gt(0)){
+    weiPrice = weiPrice.add(3).sub(offset);
+  }
+  offset = weiPrice.modulo(2);
+  if(offset.gt(0)){
+    weiPrice = weiPrice.add(3);
+  }
+
+  return weiPrice
 }
 
 function ethToWei(inValue){
@@ -68,14 +86,9 @@ router.get("/create", async (req, res)=>{
 router.post("/create", async (req, res)=>{
   try {
     console.log(req.body);
-  
-    //get fiate to eth onversion
-    /*
-    var convertedValue = await fiatToEth(req.body.value)
-    console.log("create Eth:",convertedValue.toString())
-    var weiValue = ethToWei(convertedValue.toString())
-    console.log("create wei:",weiValue)
-    */
+
+    var weiValue = req.body.value;
+
 
     var escrowContract = await ESCROW.deployed();
     // run the function and pass in the value
@@ -84,13 +97,13 @@ router.post("/create", async (req, res)=>{
       req.body.description,
       {
         from: req.body.ethAddress,
-        value: req.body.value
+        value: weiValue
       }
     )
 
     var ticker = await escrowContract.ticker.call();
     console.log("ticker in:", ticker)
-    res.redirect("/trans/" + req.body.ethAddress);
+    res.redirect("/trans/users/" + req.body.ethAddress);
   }catch(e){
     console.error("trans create error:",e);
     res.redirect("/trans/create");
@@ -99,48 +112,19 @@ router.post("/create", async (req, res)=>{
 
 router.get("/users/:user_id", async(req, res)=>{
   try {
+
+    console.log("users transactions")
   // list all transactions of a particular person
   const userId = req.params.user_id;
+
+  console.log("after user id")
   var escrowContract = await ESCROW.deployed();
+
+  console.log("get escrow contract")
   const [
     buyArticles,
     sellArticles
-  ] = await Promise.all([
-    Promise.resolve().then(async ()=>{
-      const length = await escrowContract.getEscrowListLength(true, userId);
-      console.log("buy length:", length)
-      const articles = [];
-      for(var i = 0; i < length; i++){
-        const struc = await escrowContract.getBuyerEscrowStruct(userId, i);
-        articles.push({
-          contractAddress: struc.EscrowContract.toString(),
-          sellerAddress: struc.seller.toString(),
-          buyerAddress: struc.buyer.toString(),
-          basePrice: struc.price.toString(),
-          state: struc.state.toString(),
-          description: struc.description.toString()
-        });
-      }
-      return articles    
-    }),
-    Promise.resolve().then(async ()=>{
-      const length = await escrowContract.getEscrowListLength(false, userId);
-      console.log("buy length:", length)
-      const articles = [];
-      for(var i = 0; i < length; i++){
-        const struc = await escrowContract.getSellerEscrowStruct(userId, i);
-        articles.push({
-          contractAddress: struc.EscrowContract.toString(),
-          sellerAddress: struc.seller.toString(),
-          buyerAddress: struc.buyer.toString(),
-          basePrice: struc.price.toString(),
-          state: struc.state.toString(),
-          description: struc.description.toString()
-        });
-      }
-      return articles    
-    }),
-  ])
+  ] = await getContractDetails(escrowContract, userId)
 
 
   console.log("buyArticles:", buyArticles)
@@ -149,10 +133,29 @@ router.get("/users/:user_id", async(req, res)=>{
     res.render('listTrans', { title: "List", buyArticles, sellArticles });
   }catch(e){
     console.log("list trans error:", e)
+    res.status(500).json({ error: true})
   }
 
 })
 
+/*
+
+*/
+// "/trans/:id/set-buyer"
+router.post(setBuyer.URL_PATH, setBuyer.handlePost);
+router.get(setBuyer.URL_PATH, setBuyer.handleGet);
+
+// "/trans/:id/set-seller"
+router.post(setSeller.URL_PATH, setSeller.handlePost);
+router.get(setSeller.URL_PATH, setSeller.handleGet);
+
+// "/trans/:id/buyer-recieve-item"
+router.post(buyerRecievedItem.URL_PATH, buyerRecievedItem.handlePost);
+router.get(buyerRecievedItem.URL_PATH, buyerRecievedItem.handleGet);
+
+// "/trans/:id/contract-expired"
+router.post(contractExpired.URL_PATH, contractExpired.handlePost);
+router.get(contractExpired.URL_PATH, contractExpired.handleGet);
 
 router.get("/:transaction_id", async(req, res)=>{
   // can interact with one particular transaction
@@ -160,4 +163,32 @@ router.get("/:transaction_id", async(req, res)=>{
 
 })
 
+router.post("/received", async(req, res)=>{
+  console.log(req.body);
+
+  const escrowContract = await ESCROW.deployed();
+  const confirmed = await escrowContract.buyerRecieveItem(
+    req.body.contractAddress,
+    {
+      from: req.body.ethAddress,
+      gas: GAS_LIMIT
+    } 
+  );
+  res.redirect('/myTransactions')
+})
+
+
+router.post("/expired", async(req, res)=>{
+  console.log(req.body);
+
+  const escrowContract = await ESCROW.deployed();
+  const expired = await escrowContract.contractExpired(
+    req.body.contractAddress,
+    {
+      from: req.body.ethAddress,
+      gas: GAS_LIMIT
+    } 
+  );
+  res.redirect('/myTransactions')
+})
 module.exports = router;

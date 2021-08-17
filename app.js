@@ -5,8 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 
-
-
 var indexRouter = require('./routes/index');
 var myTransactionRouter = require('./routes/myTransaction');
 var landingRouter = require('./routes/landing');
@@ -32,8 +30,8 @@ app.use('/', indexRouter);
 app.use('/landing', landingRouter);
 app.use('/wallet', walletRouter);
 app.use('/trans', createTransRouter);
-app.use('/joinTrans', joinTransRouter);
-app.use('/myTransaction', myTransactionRouter);
+app.use('/join', joinTransRouter);
+app.use('/Transaction', myTransactionRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

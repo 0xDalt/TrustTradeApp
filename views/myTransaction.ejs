@@ -9,18 +9,125 @@
   <link rel='stylesheet' href='style.css' />
 </head>
 <body>
+   <!--NAVBAR-->
+   <%- include partials/nav.ejs %>
+   <%- include partials/header.ejs %>
+   <div class="wrapper">
+    <form action="/" method="POST">
+      <input name="ethAddress" type="hidden" />
+    <p>my Transactions <%= title %></p>
     <!--Transaction bar uses 4 timestamps
             needsABuyer =0-25%,
             needsASeller = 50%%,
             buyerHasNotRecievedItem/ item on route= 75%,
             finished =100%,
         -->
-        <h1>Custom Progress Bar</h1>
-
-    <div class="progress">
-	    <div class="progress-done" data-done="70">
+      <h3>Custom Progress Bar</h3
+      <h5> display info from struct</h5>
+      <div class="progress">
+	      <div class="progress-done" data-done="70">
 		    25%
-	    </div>
-    </div>
+	      </div>
+      </div>
+   </div>
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+      }
+    
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+      }
+    </script>
+    <style>
+      /*<!--move styling to CSS
+      -->*/
+      body
+      {
+      font-family:
+      "Lato",
+      sans-serif;
+      }
+      .sidenav
+      {
+      height:
+      100%;
+      width:
+      0;
+      position:
+      fixed;
+      z-index:
+      1;
+      top:
+      0;
+      left:
+      0;
+      background-color:
+      #111;
+      overflow-x:
+      hidden;
+      transition:
+      0.5s;
+      padding-top:
+      60px;
+      }
+      .sidenav
+      a
+      {
+      padding:
+      8px
+      8px
+      8px
+      32px;
+      text-decoration:
+      none;
+      font-size:
+      25px;
+      color:
+      #818181;
+      display:
+      block;
+      transition:
+      0.3s;
+      }
+      .sidenav
+      a:hover
+      {
+      color:
+      #f1f1f1;
+      }
+      .sidenav
+      .closebtn
+      {
+      position:
+      absolute;
+      top:
+      0;
+      right:
+      25px;
+      font-size:
+      36px;
+      margin-left:
+      50px;
+      }
+      @media
+      screen
+      and
+      (max-height:
+      450px)
+      {
+      .sidenav
+      {
+        padding-top:
+      15px;
+      }
+      .sidenav
+      a
+      {
+        font-size:
+      18px;
+      }
+      }
+    </style>
 </body>
 </html>

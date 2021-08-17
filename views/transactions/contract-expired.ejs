@@ -104,21 +104,24 @@
 
 <body>
   <!--NAVBAR-->
-  <%- include partials/nav.ejs %>
-  <%- include partials/header.ejs %>
+  <%- include ../partials/nav.ejs %>
+  <%- include ../partials/header.ejs %>
     <div class="form wrapper">
-        <%- include partials/burger-right.ejs %>
+      <form name="Form" action="" method="get">
+        <%- include ../partials/burger-right.ejs %>
           <div class="container my-5">
             <h1>
               <%= title %>
             </h1>
-            <p>create transaction </p>
+            <h4><%= struct.EscrowContract %></h4>
+            <p><%= struct.description %></p>
           </div>
+      </form>
     </div>
           <!--  GAP
 -->
           <div class="wrapper">
-            <form action="/trans/create" method="POST"> <!--need the path explained -->
+            <form action="/trans/<%= contractAddress %>/set-seller" method="POST"> <!--need the path explained -->
               <input name="ethAddress" type="hidden" />
               <script>
                 /*
@@ -134,57 +137,19 @@
                     return console.log('MetaMask is not installed!');
                   }
 
-                  let accounts = await ethereum.request({ method: 'eth_accounts' });// web3 method get the account
+                  let accounts = await ethereum.request({ method: 'eth_accounts' });
                   console.log(accounts);
                   var inputNode = document.querySelector("input[name=ethAddress]")
                   inputNode.value = accounts[0];
                 })()
               </script>
-              <fieldset class="row mb-3">
-                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
-                  data-bs-content="Disabled popover">
-                  <button class="btn btn-primary" type="button" disabled>I am a</button>
-              </span>
-                <div class="col-sm-10">
-                  <div class="form-check form-check-inline"">
-                  <input class=" form-check-input" type="radio" name="buyerOrSeller" id="gridRadios1" value="buyer" checked>
-                    <label class="form-check-label" for="gridRadios1">
-                      buyer
-                    </label>
+                  <div>
+                    <button type="submit" class="btn btn-primary">submit</button>
                   </div>
-                  <div class="form-check form-check-inline"">
-                  <input class=" form-check-input" type="radio" name="buyerOrSeller" id="gridRadios2" value="seller">
-                    <label class="form-check-label" for="gridRadios2">
-                      seller
-                    </label>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col-sm-10 offset-sm-2">
-                    </div><br>
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">€</span>
-                      </div>
-                      <input
-                        type="text"
-                        name="value"
-                        class="form-control"
-                        aria-label="Amount (to the nearest dollar)"
-                      />
-                      <div class="input-group-append">
-                        <span class="input-group-text">.00</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea name="description" id="description" class="form-control"></textarea>
-                  </div><br>
-                  <button type="submit" class="btn btn-primary">create transaction</button>
             </form>
           </div>
          <div>
-          <%- include partials/footer.ejs %>
+          <%- include ../partials/footer.ejs %>
          </div>
 </body>
 

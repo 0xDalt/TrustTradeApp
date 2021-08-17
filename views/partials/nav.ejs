@@ -1,11 +1,36 @@
 <div id="mySidenav" class="sidenav">
     
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">Create Transaction</a>
-    <a href="#">Join Transaction</a>
-    <a href="#">My Transactions</a>
-    <a href="#">Wallet</a>
+    <a href="/trans">Create Transaction</a>
+    <a href="/trans/users">Own Transactions</a>
+    <a href="/join">Join Transaction</a>
+    <a href="/Transaction">My Transactions</a>
+    <a href="/wallet">Wallet</a>
   </div>
+  <script type="text/javascript" >
+  /*
+
+    https://docs.metamask.io/guide/ethereum-provider.html#methods
+    https://docs.metamask.io/guide/rpc-api.html#ethereum-json-rpc-methods
+    https://eth.wiki/json-rpc/API#eth_accounts
+
+  */
+
+    (async ()=>{
+      if (typeof window.ethereum === 'undefined') {
+        return console.log('MetaMask is not installed!');
+      }
+
+      let accounts = await ethereum.request({ method: 'eth_accounts' });
+      console.log(accounts);
+      const ownTransactions = document.createElement("a");
+      ownTransactions.href = "/trans/users/" + accounts[0];
+      ownTransactions.textContent = "My Transactions"
+      var navNode = document.querySelector("#mySidenav")
+      navNode.appendChild(ownTransactions);
+    })()
+
+  </script>
   
   <h2></h2>
   
