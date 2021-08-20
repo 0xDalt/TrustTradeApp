@@ -2,9 +2,12 @@ var express = require('express');
 var router = express.Router();
 
 const web3 = require("web3");
+const toBN = web3.utils.toBN
+
 const fetch = require("isomorphic-fetch");
 const qs = require("qs");
 
+const createContract = require("./transactions/create");
 const setBuyer = require("./transactions/set-buyer");
 const setSeller = require("./transactions/set-seller");
 const buyerRecievedItem = require("./transactions/buyer-recieved-item");
@@ -79,36 +82,9 @@ router.get("/fiat-to-eth", async (req, res)=>{
 })
 
 
-router.get("/create", async (req, res)=>{
-  res.render('createTrans', { title: 'create' });
-})
+router.get(createContract.URL_PATH, createContract.handleGet)
 
-router.post("/create", async (req, res)=>{
-  try {
-    console.log(req.body);
-
-    var weiValue = req.body.value;
-
-
-    var escrowContract = await ESCROW.deployed();
-    // run the function and pass in the value
-    var escrow = await escrowContract.createEscrow(
-      req.body.buyerOrSeller === "buyer",
-      req.body.description,
-      {
-        from: req.body.ethAddress,
-        value: weiValue
-      }
-    )
-
-    var ticker = await escrowContract.ticker.call();
-    console.log("ticker in:", ticker)
-    res.redirect("/trans/users/" + req.body.ethAddress);
-  }catch(e){
-    console.error("trans create error:",e);
-    res.redirect("/trans/create");
-  }
-});
+router.post(createContract.URL_PATH, createContract.handlePost);
 
 router.get("/users/:user_id", async(req, res)=>{
   try {
@@ -158,9 +134,25 @@ router.post(contractExpired.URL_PATH, contractExpired.handlePost);
 router.get(contractExpired.URL_PATH, contractExpired.handleGet);
 
 router.get("/:transaction_id", async(req, res)=>{
-  // can interact with one particular transaction
+  // should interact with one particular transaction
   // contractAddressToStruct
 
+  const escrowContract = await ESCROW.deployed();
+  console.log("request body:", req.body)
+  const contractAddress = req.params.transaction_id;
+  const struct = await escrowContract.contractAddressToStruct(contractAddress);
+  console.log(struct);
+  // https://github.com/indutny/bn.js
+  const bnPrice = toBN(struct.price)
+
+
+  res.render('transactions/single', {
+      contractAddress: contractAddress,
+      title: 'Set Seller',
+      sellerPrice: bnPrice.mul(toBN(2)),
+      buyerPrice: bnPrice.mul(toBN(3)),
+      struct: struct
+  });  
 })
 
 router.post("/received", async(req, res)=>{

@@ -108,7 +108,6 @@
   <%- include ../partials/header.ejs %>
     <div class="form wrapper">
       <form name="Form" action="" method="get">
-        <%- include ../partials/burger-right.ejs %>
           <div class="container my-5">
             <h1>
               <%= title %>
@@ -121,8 +120,10 @@
           <!--  GAP
 -->
           <div class="wrapper">
-            <form action="/trans/<%= contractAddress %>/set-seller" method="POST"> <!--need the path explained -->
+            <form action="/trans/<%= contractAddress %>/buyer-recieved-item" method="POST"> <!--need the path explained -->
               <input name="ethAddress" type="hidden" />
+              <div id="ifIsBuyer"></div>
+
               <script>
                 /*
 
@@ -141,25 +142,30 @@
                   console.log(accounts);
                   var inputNode = document.querySelector("input[name=ethAddress]")
                   inputNode.value = accounts[0];
+
+                  const buyerAddress = "<%= struct.buyer %>";
+                  var buyerNode = document.querySelector("#ifIsBuyer");
+
+                  console.log(
+                    "account test:",
+                    accounts[0],
+                    buyerAddress,
+                    accounts[0].toLowerCase() === buyerAddress.toLowerCase()
+                  );
+                  if(
+                    accounts[0].toLowerCase() === buyerAddress.toLowerCase()
+                  ){
+                    buyerNode.innerHTML = `
+                      <h3>Buyer Has Recieved Item</h3>
+                      <button type="submit">Submit</button>
+                    `
+                  } else {
+                    buyerNode.innerHTML = `
+                      <h3>You are not the buyer</h3>
+                    `
+                  }
                 })()
               </script>
-              <fieldset class="row mb-3">
-                <div class="col-sm-10">
-                  <div class="row mb-3">
-                    <div class="col-sm-10 offset-sm-2">
-                    </div><br>
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">€</span>
-                      </div>
-                      <div>
-                          <h3><%= price %></h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <button type="submit" class="btn btn-primary">submit</button>
-                  </div>
             </form>
           </div>
          <div>

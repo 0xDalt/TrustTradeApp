@@ -39,7 +39,7 @@ async function handlePost(req, res, next){
      const afterBuyerNumb = bigNum.toNumber();
      console.log("after-Number:", afterBuyerNumb);
    
-     res.redirect("/createTrans")   
+     res.redirect("/trans/"+contractAddress)   
 }
 
 async function handleGet(req, res, next){

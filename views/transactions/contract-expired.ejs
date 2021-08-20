@@ -108,7 +108,6 @@
   <%- include ../partials/header.ejs %>
     <div class="form wrapper">
       <form name="Form" action="" method="get">
-        <%- include ../partials/burger-right.ejs %>
           <div class="container my-5">
             <h1>
               <%= title %>
@@ -141,8 +140,11 @@
                   console.log(accounts);
                   var inputNode = document.querySelector("input[name=ethAddress]")
                   inputNode.value = accounts[0];
+
+                  
                 })()
               </script>
+              <h1>Contract has expired</h1>
                   <div>
                     <button type="submit" class="btn btn-primary">submit</button>
                   </div>

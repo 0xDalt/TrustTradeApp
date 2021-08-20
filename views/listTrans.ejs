@@ -12,7 +12,11 @@
         <ul>
             <% for(var i=0; i < buyArticles.length; i++) { %>
                 <li>
-                    <h3><%= buyArticles[i].contractAddress %></h3>
+                    <h3>
+                      <a href="/trans/<%= buyArticles[i].contractAddress %>">
+                        <%= buyArticles[i].contractAddress %>
+                      </a>
+                    </h3>
                     <h5><%= buyArticles[i].state %></h5>
                     <p><%= buyArticles[i].description %></p>
                 </li>
@@ -24,8 +28,10 @@
         <ul>
             <% for(var i=0; i < sellArticles.length; i++) { %>
                 <li>
-                    <h3><%= sellArticles[i].contractAddress %></h3>
-                    <h5><%= sellArticles[i].state %></h5>
+                  <a href="/trans/<%= sellArticles[i].contractAddress %>">
+                    <%= sellArticles[i].contractAddress %>
+                  </a>
+                <h5><%= sellArticles[i].state %></h5>
                     <p><%= sellArticles[i].description %></p>
                 </li>
              <% } %>        

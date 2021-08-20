@@ -6,158 +6,135 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel='stylesheet' href='style.css' />
-  <title>
-    <%= title %>
-  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 <style>
   /*--move styling to CSS
   -->*/
-  body
-  {
-  font-family:
-  "Lato",
-  sans-serif;
+  body {
+    font-family:
+      "Lato",
+      sans-serif;
   }
-  .sidenav
-  {
-  height:
-  100%;
-  width:
-  0;
-  position:
-  fixed;
-  z-index:
-  1;
-  top:
-  0;
-  left:
-  0;
-  background-color:
-  #111;
-  overflow-x:
-  hidden;
-  transition:
-  0.5s;
-  padding-top:
-  60px;
-  }
-  .sidenav
-  a
-  {
-  padding:
-  8px
-  8px
-  8px
-  32px;
-  text-decoration:
-  none;
-  font-size:
-  25px;
-  color:
-  #818181;
-  display:
-  block;
-  transition:
-  0.3s;
-  }
-  .sidenav
-  a:hover
-  {
-  color:
-  #f1f1f1;
-  }
-  .sidenav
-  .closebtn
-  {
-  position:
-  absolute;
-  top:
-  0;
-  right:
-  25px;
-  font-size:
-  36px;
-  margin-left:
-  50px;
-  }
-  @media
-  screen
-  and
-  (max-height:
-  450px)
-  {
-  .sidenav
-  {
+
+  .sidenav {
+    height:
+      100%;
+    width:
+      0;
+    position:
+      fixed;
+    z-index:
+      1;
+    top:
+      0;
+    left:
+      0;
+    background-color:
+      #111;
+    overflow-x:
+      hidden;
+    transition:
+      0.5s;
     padding-top:
-  15px;
+      60px;
   }
-  .sidenav
-  a
-  {
+
+  .sidenav a {
+    padding:
+      8px 8px 8px 32px;
+    text-decoration:
+      none;
     font-size:
-  18px;
+      25px;
+    color:
+      #818181;
+    display:
+      block;
+    transition:
+      0.3s;
   }
+
+  .sidenav a:hover {
+    color:
+      #f1f1f1;
+  }
+
+  .sidenav .closebtn {
+    position:
+      absolute;
+    top:
+      0;
+    right:
+      25px;
+    font-size:
+      36px;
+    margin-left:
+      50px;
+  }
+
+  @media screen and (max-height: 450px) {
+    .sidenav {
+      padding-top:
+        15px;
+    }
+
+    .sidenav a {
+      font-size:
+        18px;
+    }
   }
 </style>
 
-<body>
+  <body>
   <!--NAVBAR-->
-  <%- include partials/nav.ejs %>
-  <%- include partials/header.ejs %>
-    
-      <form name="Form" action="" method="get">
-        <%- include partials/burger-right.ejs %>
-  
-        <div class="container pt-4 pb-0 px-5">
-          <div class="layout row wrap">
-            <div class="headline">
-              <h1>
-                <%= title %>
-              </h1>
-            </div>
-            <div class="flex-con">
-              <div class="y-5 x-0">
-                <div class="join-form">
-                  <p class="body-2 font-weight-medium mb-5">
-                  Please enter the code you received from the person you are transacting with.
-                  </p>
-                  <form novalidate="novalidate" class="v-form"></form>
-                    <label aria-hidden="true" class="form-label">Alphanumeric code</label>
-                    <input type="text" name="name" class="field" required pattern="[a-zA-Z0-9]+" />
-                </div>
-              </div>
-            </div>
+    <%- include partials/nav.ejs %>
+    <%- include partials/header.ejs %>
+
+      <div class="wrapper">
+        <form id="myForm" name="Form" action="" method="get">
+          <h1>
+            <%= title %>
+          </h1>
+          <div class="join-form">
+            <p class="body-2 font-weight-medium mb-5">
+              Please enter the code you received from the person you are transacting with.
+            </p>
+            <label aria-hidden="true" class="form-label">Alphanumeric code</label>
+            <input id="contractAddress" type="text" name="name" class="field" required />
           </div>
-          <button type="button" class="success mx-0 mt-5 px-5 gradient-orange-ping-blue v-btn v-btn--round theme--light" 
-          style="width: 70%;">
-          <div class="v-btn__content"><span>Confirm</span>
-          </div></button>
-      </form>
-    </div>
-          <!--  GAP
--->
-          <div class="wrapper">
-            <form action="/trans/join" method="POST">
-                <input name="ethAddress" type="hidden" />
-            </form>
+          <div class="buttn"> <button type="submit"
+            class="success"
+            style="width: 70%;">
+            <div class="btn__content"><span>Confirm</span></div>
+            </button>
           </div>
-         <div>
-          <%- include partials/footer.ejs %>
-         </div>
-</body>
+        </form>
+      </div>
+      <script type="text/javascript">
+        (function () {
+          const form = document.querySelector("#myForm");
+          const input = document.querySelector("#contractAddress");
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            console.log("window:", window.location)
+            window.location = "/trans/" + input.value
+          })
 
+        })()
+      </script>
 
-<script>
-  function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-  }
+      <div>
+        <%- include partials/footer.ejs %>
+      </div>
+      <script>
+        function openNav() {
+          document.getElementById("mySidenav").style.width = "250px";
+        }
 
-  function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-  }
-</script>
-</body>
-
+        function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+        }
+      </script>
+  </body>
 </html>

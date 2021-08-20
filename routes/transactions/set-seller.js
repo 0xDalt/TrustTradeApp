@@ -38,8 +38,8 @@ async function handlePost(req, res, next){
      var bigNum = await escrowContract.ticker.call()
      const afterBuyerNumb = bigNum.toNumber();
      console.log("after-Number:", afterBuyerNumb);
-   
-     res.redirect("/createTrans")   
+
+     res.redirect("/trans/"+contractAddress)   
 }
 
 async function handleGet(req, res, next){

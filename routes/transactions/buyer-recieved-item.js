@@ -31,7 +31,7 @@ async function handlePost(req, res, next){
      const afterBuyerNumb = bigNum.toNumber();
      console.log("after-Number:", afterBuyerNumb);
    
-     res.redirect("/createTrans")   
+     res.redirect("/trans/"+contractAddress)   
 }
 
 async function handleGet(req, res, next){
@@ -42,7 +42,7 @@ async function handleGet(req, res, next){
   
   
   
-    res.render('transactions/set-buyer', {
+    res.render('transactions/buyer-recieved-item', {
         contractAddress: contractAddress,
         title: 'Buyer Has Recieved Item',
         struct: struct

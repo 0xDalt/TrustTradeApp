@@ -18,11 +18,15 @@
 
     (async ()=>{
       if (typeof window.ethereum === 'undefined') {
-        return console.log('MetaMask is not installed!');
+        return console.error('MetaMask is not installed!');
       }
 
       let accounts = await ethereum.request({ method: 'eth_accounts' });
       console.log(accounts);
+
+      if(accounts.length === 0){
+        return console.error("No eth accounts")
+      }
       const ownTransactions = document.createElement("a");
       ownTransactions.href = "/trans/users/" + accounts[0];
       ownTransactions.textContent = "My Transactions"

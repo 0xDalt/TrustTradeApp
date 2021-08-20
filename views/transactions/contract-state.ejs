@@ -1,0 +1,39 @@
+<div>
+    <% if(struct.state === "ContractInactive") { %>
+        <h3>
+            <a href="/trans/<%= struct.EscrowContract %>/contract-expired">
+                Contract is Inactive
+            </a>
+        </h3>
+    <% } else if(struct.state === "finished") { %>
+        <h3>
+            <a href="/trans/<%= struct.EscrowContract %>">
+                Contract is Finished
+            </a>
+        </h3>
+    <% } else if(struct.state === "startOfContract") { %>
+        <h3>
+            <a href="/trans/<%= struct.EscrowContract %>">
+                Contract Started
+            </a>
+        </h3>
+    <% } else if(struct.state === "needsABuyer") { %>
+        <h3>
+            <a href="/trans/<%= struct.EscrowContract %>/set-buyer">
+                Contract Needs a buyer
+            </a>
+        </h3>
+    <% } else if(struct.state === "needsASeller") { %>
+        <h3>
+            <a href="/trans/<%= struct.EscrowContract %>/set-seller">
+                Contract Needs a seller
+            </a>
+        </h3>
+    <% } else if(struct.state === "buyerHasNotRecievedItem") { %>
+        <h3>
+            <a href="/trans/<%= struct.EscrowContract %>/buyer-recieved-item">
+                Buyer Has Recieved Item
+            </a>
+        </h3>
+    <% } %>
+</div>

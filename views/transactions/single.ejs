@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div>
+        <h1>Articles</h1>
+                <div>
+                    <h3>
+                      <a href="/trans/<%= struct.EscrowContract %>"></a>
+                        <%= struct.EscrowContract %>
+                      </a>
+                    </h3>
+                    <div>
+                        <span>Buyer Price: </span>
+                        <span><%= buyerPrice %></span>
+                    </div>
+                    <div>
+                        <span>Seller Price: </span>
+                        <span><%= sellerPrice %></span>
+                    </div>
+                    <h5><%= struct.state %></h5>
+                    <p><%= struct.description %></p>
+                    <%- include ./contract-state.ejs %>
+                </div>
+    </div>
+
+</body>
+
+
+<script>
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+</script>
+</body>
+
+</html>
