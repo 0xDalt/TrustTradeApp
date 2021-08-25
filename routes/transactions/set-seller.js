@@ -1,5 +1,6 @@
 const {
   ESCROW,
+  ESCROW_CONTRACT_JSON,
    GAS_LIMIT
 } = require("../utils/truffle");
 
@@ -54,13 +55,16 @@ async function handleGet(req, res, next){
     const price = bnPrice.mul(toBN(2))
     console.log(price);
  
-  
+    console.log("set seller handle get")
   
     res.render('transactions/set-seller', {
         contractAddress: contractAddress,
         title: 'Set Seller',
         price: price,
-        struct: struct
+        struct: struct,
+        ESCROW_CONTRACT_ADDRESS: escrowContract.address,
+        ESCROW_CONTRACT_JSON
+
     });  
 }
 

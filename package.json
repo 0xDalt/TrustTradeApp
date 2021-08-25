@@ -7,7 +7,7 @@
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
-    "@truffle/hdwallet-provider": "^1.4.3",
+    "@truffle/contract": "^4.3.31",
     "bcrypt": "^5.0.1",
     "better-sqlite3": "^7.4.3",
     "chart.js": "^3.4.0",
@@ -23,10 +23,12 @@
     "morgan": "~1.9.1",
     "nodemon": "^2.0.7",
     "qs": "^6.10.1",
+    "sweetalert": "^2.1.2",
     "truffle-contract": "^4.0.31",
     "web3": "^1.5.1"
   },
   "devDependencies": {
+    "@truffle/hdwallet-provider": "^1.5.0",
     "bootstrap": "^5.0.2",
     "jquery": "^3.6.0",
     "popper.js": "^1.16.1"

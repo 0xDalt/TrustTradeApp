@@ -1,0 +1,49 @@
+<form id="transForm" action="/trans/<%= contractAddress %>/cleanup" method="POST"> 
+    <input name="ethAddress" type="hidden" />
+    <script>
+      /*
+
+      https://docs.metamask.io/guide/ethereum-provider.html#methods
+      https://docs.metamask.io/guide/rpc-api.html#ethereum-json-rpc-methods
+      https://eth.wiki/json-rpc/API#eth_accounts
+
+      */
+
+      (async ()=>{
+        if (typeof window.ethereum === 'undefined') {
+          return console.log('MetaMask is not installed!');
+        }
+
+        let accounts = await ethereum.request({ method: 'eth_accounts' });
+        console.log(accounts);
+        var inputNode = document.querySelector("input[name=ethAddress]")
+        inputNode.value = accounts[0];
+
+        
+      })()
+    </script>
+    <h1>Cleanup Item</h1>
+        <div>
+          <button type="submit" class="btn btn-primary">submit</button>
+        </div>
+  </form>
+  <script type="text/javascript" >
+    var form = document.querySelector("#transForm");
+    console.log("create trans:", form)
+    form.addEventListener("submit", async (e)=>{
+      e.preventDefault()
+      console.log("createEscrow:", window.App.contracts.EscrowContainerInstance.methods);
+
+      const ethAddress = document.querySelector("input[name=ethAddress]").value;
+
+      var escrow = await window.App.contracts.EscrowContainerInstance.methods.cleanUpLists("<%= contractAddress %>").send(
+        {
+          from: ethAddress,
+        }
+      );
+      console.log(escrow);
+      window.location = "/trans/users/" + ethAddress;
+
+    })    
+  </script>
+

@@ -1,4 +1,14 @@
      <!-- Site footer -->
      <footer class="alert alert-success" role="alert">
       If you do not have Metamask installed <a href="https://metamask.io/" class="alert-link">click here to get set up</a>.
+      <script>
+        var ethKey = null;
+        (async function () {
+      
+          ethKey = await window.ethereum.request({ method: 'eth_requestAccounts' })
+          let currentAccEl = (await document.getElementById("currentAcc"))
+          currentAccEl.value = ethKey[0]
+      
+        })()
+      </script>
     </footer>

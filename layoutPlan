@@ -1,0 +1,53 @@
+NP= not priority, MM= MetaMask,
+(All pages will have nightmode option)
+(responsive dropdown symbol-about is, why decentral-homepage etc.)
+landing page 
+	login href
+	sign up href
+	register same as sign up page
+	brief description about product.
+
+
+Log in/Register
+	register new user-data goes to database
+	Login validation-display error
+	verify password- password matches account
+	id for each account for db?
+	blank input fields-err
+
+Wallet
+	logo of MM
+	MM detection- install guide
+	link to install dir
+	NP-Ui that displays acount balance, maybe with eur convert.
+	
+Create Transaction page.
+	table inside div
+	text, radio buttons
+	drop down for currency
+	price input field
+	description-String input
+	Creat submit button- calculates all data and stores in array?
+	create a random TX-hash and assign to data
+	hashmap for storage?
+	validation that its been created
+
+my transaction
+	Transactions status will show on page
+	A description using the decription variable
+	explaination about transaction and to send code to other party
+	the TX-hash will be displayed with a copy tag.
+	if buyer display- I have recived the item (partials)
+	if seller display- I have sent the item.
+	use the username variable to say xyz and yzx are now in this transaction.
+	the status bar could have 4 sections one person involved, 25,50,75,100
+	2 people involved, seller has sent the item and buyer has recived the item.
+	100 displays complete message and payFunds smart contract is executed
+	
+	
+JoinTransaction
+	basic explaination text
+	input and confirm submit button
+	when users enter tx system looks for a matching code and matches.
+	brings the user to my transaction page where 2 users are now involved.
+		

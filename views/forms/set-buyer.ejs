@@ -1,0 +1,71 @@
+<form id="transForm" action="/trans/<%= contractAddress %>/set-buyer" method="POST"> 
+  <input name="ethAddress" type="hidden" />
+  <script>
+    /*
+
+    https://docs.metamask.io/guide/ethereum-provider.html#methods
+    https://docs.metamask.io/guide/rpc-api.html#ethereum-json-rpc-methods
+    https://eth.wiki/json-rpc/API#eth_accounts
+
+    */
+
+    (async ()=>{
+      if (typeof window.ethereum === 'undefined') {
+        return console.log('MetaMask is not installed!');
+      }
+
+      let accounts = await ethereum.request({ method: 'eth_accounts' });
+      console.log(accounts);
+      var inputNode = document.querySelector("input[name=ethAddress]")
+      inputNode.value = accounts[0];
+    })()
+  </script>
+      <div class="row mb-3">
+        <h3>confirm you are the buyer</h3>
+        <div>You Will Pay:<span id="pricePay"></span></div>
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Pay €</span>
+          </div>
+          <div>
+              <h3><%= buyerPrice %></h3>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary">confirm and pay</button>
+      </div>
+</form>
+<script type="text/javascript" >
+  window.waitForContract(async function (){
+    console.log("address:", "<%= contractAddress %>")
+
+    var struct = await window.App.contracts.EscrowContainerInstance.methods.contractAddressToStruct("<%= contractAddress %>").call();
+
+    console.log("struct:", struct)
+
+    document.querySelector("#pricePay").textContent = struct.price;
+
+  })
+
+  var form = document.querySelector("#transForm");
+  console.log("create trans:", form)
+  form.addEventListener("submit", async (e)=>{
+    e.preventDefault()
+    console.log("createEscrow:", window.App.contracts.EscrowContainerInstance.methods);
+
+    const ethAddress = document.querySelector("input[name=ethAddress]").value;
+
+    var escrow = await window.App.contracts.EscrowContainerInstance.methods.setBuyer("<%= contractAddress %>").send(
+      {
+        from: ethAddress,
+        value: "<%= buyerPrice %>"
+      }
+    );
+    console.log(escrow);
+    window.location.reload();
+
+  })    
+</script>
+

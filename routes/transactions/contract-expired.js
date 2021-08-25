@@ -1,5 +1,6 @@
 const {
   ESCROW,
+  ESCROW_CONTRACT_JSON,
    GAS_LIMIT
 } = require("../utils/truffle");
 
@@ -45,7 +46,10 @@ async function handleGet(req, res, next){
     res.render('transactions/contract-expired', {
         contractAddress: contractAddress,
         title: 'Contract Expired',
-        struct: struct
+        struct: struct,
+        ESCROW_CONTRACT_ADDRESS: escrowContract.address,
+        ESCROW_CONTRACT_JSON
+
     });  
 }
 

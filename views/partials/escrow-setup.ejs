@@ -1,0 +1,69 @@
+<!-- <script src="/javascripts/web3.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+<!-- <script src="/javascripts/truffle-contract.js"></script> -->
+<script type="text/javascript">
+const ESCROW_CONTRACT_ADDRESS = "<%= ESCROW_CONTRACT_ADDRESS %>";
+const ESCROW_CONTRACT_JSON = <%- JSON.stringify(ESCROW_CONTRACT_JSON.abi) %>;
+
+console.log("ESCROW_CONTRACT_ADDRESS:", ESCROW_CONTRACT_ADDRESS)
+var contractSet = false;
+var contractListeners = [];
+// the
+window.waitForContract = (contractListener)=>{
+    if(contractSet){
+        return Promise.resolve().then(contractListener);
+    }
+
+    contractListeners.push(contractListener)
+}
+
+function setContract(){
+    contractSet = true;
+    contractListeners.forEach((fn)=>{
+        fn();
+    })
+}
+
+window.App = {
+  web3Provider: null,
+  contracts: {},
+};
+(async()=>{
+    // Modern dapp browsers...
+    if (window.ethereum) {
+    App.web3Provider = window.ethereum;
+    try {
+        // Request account access
+        await window.ethereum.enable();
+    } catch (error) {
+        // User denied account access...
+        console.error("User denied account access")
+    }
+    }
+    // Legacy dapp browsers...
+    else if (window.web3) {
+    App.web3Provider = window.web3.currentProvider;
+    }
+    // If no injected web3 instance is detected, fall back to Ganache
+    else {
+    App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+    }
+    web3 = new Web3(App.web3Provider);
+
+    const Contract = web3.eth.Contract
+    console.log(web3.eth);
+    Contract.setProvider(App.web3Provider);
+    console.log("ESCROW_CONTRACT_JSON:", ESCROW_CONTRACT_JSON)
+    console.log("ESCROW_CONTRACT_ADDRESS:", ESCROW_CONTRACT_ADDRESS)
+    const EscrowContainerContract = new Contract(ESCROW_CONTRACT_JSON, ESCROW_CONTRACT_ADDRESS.toUpperCase());
+    // App.contracts.EscrowContainer = TruffleContract(ESCROW_CONTRACT_JSON, ESCROW_CONTRACT_ADDRESS);
+    // App.contracts.EscrowContainer.setProvider(App.web3Provider);
+    // App.contracts.EscrowContainerInstance = await App.contracts.EscrowContainer.deployed();
+    App.contracts.EscrowContainerInstance = EscrowContainerContract;
+
+    console.log("EscrowContainerInstance:",  App.contracts.EscrowContainerInstance)
+    setContract();
+})()
+
+</script>
+

@@ -23,8 +23,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -43,8 +42,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -68,8 +66,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -88,8 +85,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -102,8 +98,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -127,8 +122,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -179,8 +173,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -236,8 +229,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -293,8 +285,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -312,8 +303,7 @@
       "name": "createEscrow",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function",
-      "payable": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -326,8 +316,7 @@
       "name": "setBuyer",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function",
-      "payable": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -340,8 +329,7 @@
       "name": "setSeller",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function",
-      "payable": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -41120,16 +41108,21 @@
     "version": "0.8.7+commit.e28d00a7.Emscripten.clang"
   },
   "networks": {
+    "3": {
+      "events": {},
+      "links": {},
+      "address": "0x0a46FA5a739aa55C0cD8A3a72b943D7f017b1003",
+      "transactionHash": "0xc15a87fced1782748a24c010089a395c7e183e231a2a19240a6076de9bcfaa2f"
+    },
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xcb0C0a637D483D31CE50A3069167db7A403369Aa",
-      "transactionHash": "0x5ca65cf48d678ca65b8067438205fef63ff8c3410ded7d8b541354bba5a564ef"
+      "address": "0x70D05eD3A3BB4eC143E81622A879D846419E17C4",
+      "transactionHash": "0xe4f318cbf4d6741beea8c2480cc0a379bad1a838479fd3af06b07d15cf70002b"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-08-20T00:21:29.594Z",
-  "networkType": "ethereum",
+  "updatedAt": "2021-08-25T03:43:32.591Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

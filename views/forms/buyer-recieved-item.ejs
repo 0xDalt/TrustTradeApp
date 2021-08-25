@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/darkmode.css' />
+<form id="transForm" action="/trans/<%= contractAddress %>/buyer-recieved-item" method="POST" class="form-outer"> 
+    <input name="ethAddress" type="hidden" />
+    <div id="ifIsBuyer"></div>
+
+    <script>
+      /*
+
+      https://docs.metamask.io/guide/ethereum-provider.html#methods
+      https://docs.metamask.io/guide/rpc-api.html#ethereum-json-rpc-methods
+      https://eth.wiki/json-rpc/API#eth_accounts
+
+      */
+
+      (async ()=>{
+        if (typeof window.ethereum === 'undefined') {
+          return console.log('MetaMask is not installed!');
+        }
+
+        let accounts = await ethereum.request({ method: 'eth_accounts' });
+        console.log(accounts);
+        var inputNode = document.querySelector("input[name=ethAddress]")
+        inputNode.value = accounts[0];
+        const buyerAddress = "<%= struct.buyer %>";
+        var buyerNode = document.querySelector("#ifIsBuyer");
+
+        console.log(
+          "account test:",
+          accounts[0],
+          buyerAddress,
+          accounts[0].toLowerCase() === buyerAddress.toLowerCase()
+        );
+        if(
+          accounts[0].toLowerCase() === buyerAddress.toLowerCase()
+        ){
+          buyerNode.innerHTML = `
+            <h3>Click here to complete transaction, when you have recieved item and your deposit will be released</h3>
+            <div>
+                <button type="submit" class="btn btn-primary">Complete</button>
+              </div>
+          `
+        } else {
+          buyerNode.innerHTML = `
+            <h3></h3>
+          `
+        }
+      })()
+    </script>
+  </form>
+  <script type="text/javascript" >
+    var form = document.querySelector("#transForm");
+    console.log("create trans:", form)
+    form.addEventListener("submit", async (e)=>{
+      e.preventDefault()
+      console.log("createEscrow:", window.App.contracts.EscrowContainerInstance.methods);
+
+      const ethAddress = document.querySelector("input[name=ethAddress]").value;
+
+      var escrow = await window.App.contracts.EscrowContainerInstance.methods.buyerRecieveItem("<%= contractAddress %>").send(
+        {
+          from: ethAddress,
+        }
+      );
+      console.log(escrow);
+      window.location.reload();
+
+    })    
+  </script>
+
+

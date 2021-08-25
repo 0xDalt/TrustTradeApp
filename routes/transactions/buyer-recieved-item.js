@@ -1,5 +1,6 @@
 const {
   ESCROW,
+  ESCROW_CONTRACT_JSON,
    GAS_LIMIT
 } = require("../utils/truffle");
 
@@ -40,12 +41,14 @@ async function handleGet(req, res, next){
     const contractAddress = req.params.id;
     const struct = await escrowContract.contractAddressToStruct(contractAddress);
   
-  
+    console.log("struct", struct)
   
     res.render('transactions/buyer-recieved-item', {
         contractAddress: contractAddress,
         title: 'Buyer Has Recieved Item',
-        struct: struct
+        struct: struct,
+        ESCROW_CONTRACT_ADDRESS: escrowContract.address,
+        ESCROW_CONTRACT_JSON
     });  
 }
 

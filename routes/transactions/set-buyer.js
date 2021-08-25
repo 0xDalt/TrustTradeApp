@@ -1,5 +1,6 @@
 const {
   ESCROW,
+  ESCROW_CONTRACT_JSON,
    GAS_LIMIT
 } = require("../utils/truffle");
 
@@ -57,7 +58,10 @@ async function handleGet(req, res, next){
         contractAddress: contractAddress,
         title: 'Set Buyer',
         price: price,
-        struct: struct
+        struct: struct,
+        ESCROW_CONTRACT_ADDRESS: escrowContract.address,
+        ESCROW_CONTRACT_JSON
+
     });  
 }
 

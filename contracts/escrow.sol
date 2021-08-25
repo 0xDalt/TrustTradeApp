@@ -160,14 +160,19 @@ contract Escrow {
         return "finished";
         
     }
+/*
 
+the buyer puts in 3, gets out 2
+the seller puts in 2, gets out 3
+
+*/
     
     function setBuyer() payable public {
         require(block.timestamp < contractStart + EscrowTypes.one_Week, "contract is inactive");
 
         require(msg.value > 0, "The price of the deposit must be greater than 0");
         
-        require(msg.value % 3 == 0, "The price of the deposit must be divisible by 2 and 3");
+        require(msg.value % 6 == 0, "The price of the deposit must be divisible by 2 and 3");
         // if price is not set
         if(_price == 0){
             // set the price to value / 3
@@ -193,7 +198,7 @@ contract Escrow {
 
         require(msg.value > 0, "The price of the deposit must be greater than 0");
         
-        require(msg.value % 2 == 0, "The price of the deposit must be divisible by 2 and 3");
+        require(msg.value % 6 == 0, "The price of the deposit must be divisible by 2 and 3");
         // if price is not set
 
         if(_price == 0){
@@ -214,8 +219,7 @@ contract Escrow {
         sellerHasDeposited = true;// if all that is true set sellerHasDeposited to true
 
     }
-    
-    
+
     function buyerRecieveItem() public {
         require(block.timestamp < contractStart + EscrowTypes.one_Week, "contract is inactive");
         require(getCurrentState() == ContractState.buyerHasNotRecievedItem, "Buyer should be waiting for item");
@@ -249,6 +253,7 @@ contract EscrowContainer  {
     mapping (address => address[]) public sellerList;
     mapping (address => uint) public sellerListLength;
 
+   
     function getEscrowListLength(bool fromBuyer, address user) public view returns (uint) {
         if(fromBuyer){
             return buyerListLength[user];

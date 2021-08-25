@@ -1,6 +1,7 @@
 const {
     ESCROW,
-     GAS_LIMIT
+    ESCROW_CONTRACT_JSON,
+    GAS_LIMIT
   } = require("../utils/truffle");
   
 const URL_PATH = "/create";
@@ -35,7 +36,15 @@ async function handlePost(req, res){
 
 async function handleGet(req, res){
     console.log("Create Contract")
-    res.render('createTrans', { title: 'create' });
+    var escrowContract = await ESCROW.deployed();
+
+    console.log("escrowContract:", escrowContract.address);
+
+    res.render('createTrans', {
+        title: 'create',
+        ESCROW_CONTRACT_ADDRESS: escrowContract.address,
+        ESCROW_CONTRACT_JSON
+    });
 }
 
 module.exports = {
