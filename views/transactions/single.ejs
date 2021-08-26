@@ -49,15 +49,15 @@
       <div>
         <% if(item.state==="needsABuyer" ) { %>
           <%- include ../forms/set-buyer.ejs %>
-            <% } else if(item.state==="needsASeller" ) { %>
-              <%- include ../forms/set-seller.ejs %>
-                <% } else if(item.state==="buyerHasNotRecievedItem" ) { %>
-                  <%- include ../forms/buyer-recieved-item.ejs %>
-                    <% } else if(item.state==="ContractInactive" ) { %>
-                      <%- include ../forms/contract-expired.ejs %>
-                        <% } else if(item.state==="finished" ) { %>
-                          <%- include ../forms/cleanup.ejs %>
-                            <% } %>
+        <% } else if(item.state==="needsASeller" ) { %>
+          <%- include ../forms/set-seller.ejs %>
+        <% } else if(item.state==="buyerHasNotRecievedItem" ) { %>
+          <%- include ../forms/buyer-recieved-item.ejs %>
+        <% } else if(item.state==="ContractInactive" ) { %>
+          <%- include ../forms/contract-expired.ejs %>
+        <% } else if(item.state==="finished" ) { %>
+          <%- include ../forms/cleanup.ejs %>
+        <% } %>
       </div>
       <a id="to-list" href="/join" class="btn btn-outline-dark">Go back</a>
     </div>

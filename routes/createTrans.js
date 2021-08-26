@@ -23,7 +23,7 @@ const {
    GAS_LIMIT
 } = require("./utils/truffle");
 
-/* GET home page. */
+/* create page. */
 router.get('/', async function(req, res, next) {
   console.log("Create Contract")
   var escrowContract = await ESCROW.deployed();
@@ -37,21 +37,7 @@ router.get('/', async function(req, res, next) {
   });
 });
 
-router.get("/fiat-to-eth", (req, res)=>{
-  console.log("qs:",req.query);
-  fiatToEth(req.query.amount).then((out)=>{
-    res.json({
-      euro: req.query.amount,
-      wei: out
-    })
-  })
-})
-
-
-router.get(createContract.URL_PATH, createContract.handleGet)
-
-router.post(createContract.URL_PATH, createContract.handlePost);
-
+/* list users transactions */
 router.get("/users/:user_id", async(req, res)=>{
   try {
 
@@ -98,25 +84,18 @@ router.get("/users/:user_id", async(req, res)=>{
 
 })
 
-/*
+/* convert fiat to wei */
+router.get("/fiat-to-eth", (req, res)=>{
+  console.log("qs:",req.query);
+  fiatToEth(req.query.amount).then((out)=>{
+    res.json({
+      euro: req.query.amount,
+      wei: out
+    })
+  })
+})
 
-*/
-// "/trans/:id/set-buyer"
-router.post(setBuyer.URL_PATH, setBuyer.handlePost);
-router.get(setBuyer.URL_PATH, setBuyer.handleGet);
-
-// "/trans/:id/set-seller"
-router.post(setSeller.URL_PATH, setSeller.handlePost);
-router.get(setSeller.URL_PATH, setSeller.handleGet);
-
-// "/trans/:id/buyer-recieve-item"
-router.post(buyerRecievedItem.URL_PATH, buyerRecievedItem.handlePost);
-router.get(buyerRecievedItem.URL_PATH, buyerRecievedItem.handleGet);
-
-// "/trans/:id/contract-expired"
-router.post(contractExpired.URL_PATH, contractExpired.handlePost);
-router.get(contractExpired.URL_PATH, contractExpired.handleGet);
-
+/* get single transaction */
 router.get("/:transaction_id", async(req, res)=>{
   // should interact with one particular transaction
   // contractAddressToStruct
@@ -142,32 +121,5 @@ router.get("/:transaction_id", async(req, res)=>{
   });  
 })
 
-router.post("/received", async(req, res)=>{
-  console.log(req.body);
 
-  const escrowContract = await ESCROW.deployed();
-  const confirmed = await escrowContract.buyerRecieveItem(
-    req.body.contractAddress,
-    {
-      from: req.body.ethAddress,
-      gas: GAS_LIMIT
-    } 
-  );
-  res.redirect('/myTransactions')
-})
-
-
-router.post("/expired", async(req, res)=>{
-  console.log(req.body);
-
-  const escrowContract = await ESCROW.deployed();
-  const expired = await escrowContract.contractExpired(
-    req.body.contractAddress,
-    {
-      from: req.body.ethAddress,
-      gas: GAS_LIMIT
-    } 
-  );
-  res.redirect('/myTransactions')
-})
 module.exports = router;

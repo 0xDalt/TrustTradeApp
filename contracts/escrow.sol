@@ -160,19 +160,14 @@ contract Escrow {
         return "finished";
         
     }
-/*
 
-the buyer puts in 3, gets out 2
-the seller puts in 2, gets out 3
-
-*/
     
     function setBuyer() payable public {
         require(block.timestamp < contractStart + EscrowTypes.one_Week, "contract is inactive");
 
         require(msg.value > 0, "The price of the deposit must be greater than 0");
         
-        require(msg.value % 6 == 0, "The price of the deposit must be divisible by 2 and 3");
+        require(msg.value % 3 == 0, "The price of the deposit must be divisible by 2 and 3");
         // if price is not set
         if(_price == 0){
             // set the price to value / 3
@@ -198,7 +193,7 @@ the seller puts in 2, gets out 3
 
         require(msg.value > 0, "The price of the deposit must be greater than 0");
         
-        require(msg.value % 6 == 0, "The price of the deposit must be divisible by 2 and 3");
+        require(msg.value % 2 == 0, "The price of the deposit must be divisible by 2 and 3");
         // if price is not set
 
         if(_price == 0){
@@ -252,6 +247,8 @@ contract EscrowContainer  {
     mapping (address => uint) public buyerListLength;
     mapping (address => address[]) public sellerList;
     mapping (address => uint) public sellerListLength;
+
+
 
    
     function getEscrowListLength(bool fromBuyer, address user) public view returns (uint) {
@@ -338,6 +335,7 @@ contract EscrowContainer  {
         // creating a new escrow item
         address newEscrowAddress = address(newEscrow);
         // can cast a contract to an address
+        // cast changing a number into a string
         // https://ethereum.stackexchange.com/questions/66613/cast-contract-to-address-payable
         if(isBuyer){
             // if the isBuyer is true,
@@ -357,6 +355,7 @@ contract EscrowContainer  {
         ticker++;
         // getting the escrow object associated to the address 
         Escrow escrow = Escrow(contractAddress);
+        // casting the address to be a contract
         // setting the buyer and sending the value
         escrow.setBuyer{value: msg.value }();
         // append the user's buyer list with the new contract address
@@ -437,7 +436,7 @@ contract EscrowContainer  {
         address[] storage buyerListOfAddress = buyerList[buyer];
         // and the length associated to that buyer's list
         uint length = buyerListLength[buyer];
-        // With the escrow also get the address which looking to remove
+        // we get the escrow address we want to remove
         address contractAddress = address(escrow);
 
         /* to remove an item from the array,
